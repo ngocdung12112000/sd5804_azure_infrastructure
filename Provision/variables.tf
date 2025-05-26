@@ -6,7 +6,7 @@ variable "region" {
 variable "cluster_name" {
   type        = string
   description = "aks cluster name, same name is used for resource group, vnet and subnets"
-  default     = "devop-aks"
+  default     = "bndz-aks-cluster"
 }
 
 variable "k8s_version" {
