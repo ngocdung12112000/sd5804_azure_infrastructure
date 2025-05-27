@@ -8,8 +8,6 @@ terraform {
   }
 }
 
-# azurerm_kubernetes_cluster to create k8s cluster
-# official documentation https://registry.terraform.io/providers/hashicorp/azurerm/3.65.0/docs/resources/kubernetes_cluster
 resource "azurerm_kubernetes_cluster" "k8s" {
   name                = var.cluster_name
   location            = var.region
@@ -21,7 +19,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
   default_node_pool {
     name                         = "system"
-    #type                         = "VirtualMachineScaleSets"
     node_count                   = 1
     vm_size                      = "Standard_D2_v2"
     zones                        = [1, 2, 3]
@@ -46,8 +43,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   workload_identity_enabled = true
 }
 
-# azurerm_kubernetes_cluster_node_pool to create k8s workers
-# official documentation https://registry.terraform.io/providers/hashicorp/azurerm/3.65.0/docs/resources/kubernetes_cluster_node_pool
 resource "azurerm_kubernetes_cluster_node_pool" "k8s-worker" {
   for_each = var.nodepools
 
@@ -56,8 +51,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "k8s-worker" {
   vm_size               = each.value.vm_size
   min_count             = each.value.min_count
   max_count             = each.value.max_count
-  enable_auto_scaling   = each.value.enable_auto_scaling
-  enable_node_public_ip = each.value.enable_node_public_ip
   zones                 = each.value.zones
   vnet_subnet_id        = var.az_subnet_id
   tags                  = each.value.tags

@@ -61,3 +61,9 @@ variable "additional_resource_group_tags" {
   description = "additional tags for resource group"
   default     = {}
 }
+
+variable "acr_name" {
+  type        = string
+  description = "The name of the Azure Container Registry. This is used to store container images."
+  default     = "bndzACR"
+}
